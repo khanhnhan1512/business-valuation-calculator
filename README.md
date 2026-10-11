@@ -89,7 +89,9 @@ src/
   [`src/lib/insights.ts`](src/lib/insights.ts) are written to the spec's
   template and need review by Aspen's valuation team before launch.
 - **Brand logo** — [`src/components/AspenLogo.tsx`](src/components/AspenLogo.tsx)
-  is a placeholder lockup. Drop the official asset at `public/aspen-logo.svg`.
+  uses the official PNG at `public/aspen-logo.png`. The white footer version
+  (`public/aspen-logo-white.png`) was recoloured from it; swap in Aspen's own
+  reversed logo, and an SVG of both, if available.
 - **CBV stamp** — the footer submark is a placeholder; replace with the official
   stamp at `public/cbv-stamp.svg`.
 - **Typography** — DIN Next LT Pro is first in the font stack, with Barlow as

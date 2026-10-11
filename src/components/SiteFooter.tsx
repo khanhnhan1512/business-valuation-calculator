@@ -39,11 +39,8 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-5 py-14">
         <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
           <div className="max-w-sm">
-            <AspenLogo variant="light" />
-            <p className="mt-5 text-3xl font-bold tracking-[0.12em] text-teal">
-              KNOW YOUR WORTH
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-white/70">
+            <AspenLogo variant="light" className="h-20 w-auto" />
+            <p className="mt-6 text-sm leading-relaxed text-white/70">
               Independent business valuation and advisory, delivered by
               Chartered Business Valuators.
             </p>

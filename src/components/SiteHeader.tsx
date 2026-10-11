@@ -4,11 +4,8 @@ export function SiteHeader() {
   return (
     <header className="no-print sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
-        <a href="#top" className="flex items-center gap-3">
-          <AspenLogo />
-          <span className="hidden border-l border-line pl-3 eyebrow text-teal sm:block">
-            Know your worth
-          </span>
+        <a href="#top" className="shrink-0">
+          <AspenLogo eager className="h-10 w-auto sm:h-12" />
         </a>
 
         <nav className="flex items-center gap-6">
