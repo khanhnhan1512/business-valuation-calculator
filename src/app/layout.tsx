@@ -10,7 +10,7 @@ const barlow = Barlow({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://business-valuation-calculator.vercel.app"),
+  metadataBase: new URL("https://business-valuation-calculator-tan.vercel.app"),
   title: {
     default: "Business Valuation Calculator | Aspen Valuations",
     template: "%s | Aspen Valuations",
