@@ -7,6 +7,11 @@ specification in [docs/](docs/).
 All calculation happens in the browser. No contact details are collected — users
 provide those on the Aspen contact page via the result CTAs.
 
+Step 1 links owners who do not know their EBITDA to the companion
+[Adjusted EBITDA Calculator](https://adjusted-ebitda-calculator.vercel.app),
+opened in a new tab so they can come back and enter the figure. Its URL is
+`EBITDA_CALCULATOR_URL` in [`src/components/Calculator.tsx`](src/components/Calculator.tsx).
+
 ## Calculation
 
 ```

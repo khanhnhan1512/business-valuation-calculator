@@ -14,6 +14,8 @@ import { ValuationResults } from "./ValuationResults";
 const TOTAL_STEPS = 3;
 /** Below this the multiples are a poor guide, so we show a note (but allow it). */
 const RECOMMENDED_MINIMUM = 50_000;
+/** Companion tool for owners who need to work their EBITDA out first. */
+const EBITDA_CALCULATOR_URL = "https://adjusted-ebitda-calculator.vercel.app";
 
 function StepIndicator({ step }: { step: number }) {
   return (
@@ -97,6 +99,24 @@ export function Calculator() {
             amortization). If unsure, use net profit before tax plus your
             salary.
           </p>
+
+          <div className="mt-6 flex flex-col gap-4 rounded-xl border border-teal/30 bg-teal-soft p-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm leading-relaxed text-forest">
+              <span className="font-bold">Need to calculate it first?</span>{" "}
+              Work out your Adjusted EBITDA from your income statement with our
+              EBITDA calculator, then come back and enter the figure below.
+            </p>
+            {/* New tab, so the user does not lose their place here. */}
+            <a
+              href={EBITDA_CALCULATOR_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 self-start rounded-full bg-forest px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-white transition hover:bg-forest-light sm:self-auto"
+            >
+              Calculate EBITDA ↗
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </div>
 
           <div className="mt-8">
             <label
