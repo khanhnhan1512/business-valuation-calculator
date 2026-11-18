@@ -11,6 +11,11 @@ import {
 } from "@/lib/valuation";
 
 const CONTACT_URL = "https://aspenval.com/ca/contact-us/";
+/**
+ * When embedded in an iframe on aspenval.com, open the contact page in the
+ * full window rather than inside the frame. No effect on the standalone site.
+ */
+const CONTACT_TARGET = "_top";
 
 function BreakdownRow({ label, value }: { label: string; value: string }) {
   return (
@@ -101,12 +106,14 @@ export function ValuationResults({
         <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a
             href={CONTACT_URL}
+            target={CONTACT_TARGET}
             className="rounded-full bg-teal px-8 py-3.5 font-semibold text-white transition hover:bg-teal-dark"
           >
             Book a consultation
           </a>
           <a
             href={CONTACT_URL}
+            target={CONTACT_TARGET}
             className="rounded-full border border-white/30 px-8 py-3.5 font-semibold text-white transition hover:border-teal hover:text-teal"
           >
             Request a quote

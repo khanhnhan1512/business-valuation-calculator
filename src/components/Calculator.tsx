@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import { EMBED_MESSAGES, postToHost } from "@/lib/embed";
 import {
   INDUSTRIES,
   PROFILES,
@@ -42,7 +43,12 @@ function StepIndicator({ step }: { step: number }) {
   );
 }
 
-export function Calculator() {
+export function Calculator({
+  embedded = false,
+}: {
+  /** Rendered inside the iframe on aspenval.com (the /embed page). */
+  embedded?: boolean;
+}) {
   const [step, setStep] = useState(1);
   const [ebitdaInput, setEbitdaInput] = useState("");
   const [industry, setIndustry] = useState<IndustryId | null>(null);
@@ -62,6 +68,12 @@ export function Calculator() {
   );
 
   function scrollToPanel() {
+    // In an iframe, scrollIntoView would also scroll the host page by its own
+    // rules; let the host snippet bring the frame into view instead.
+    if (embedded) {
+      postToHost({ type: EMBED_MESSAGES.navigate });
+      return;
+    }
     panelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -85,7 +97,13 @@ export function Calculator() {
   return (
     <div
       ref={panelRef}
-      className="scroll-mt-24 rounded-3xl border border-line bg-white p-6 shadow-[0_18px_60px_-30px_rgba(26,50,47,0.35)] sm:p-10"
+      className={`scroll-mt-24 rounded-3xl border border-line bg-white p-6 sm:p-10 ${
+        // The iframe clips anything outside it, so the embed gets a shadow
+        // that fits inside EmbedRoot's padding.
+        embedded
+          ? "shadow-[0_4px_16px_-8px_rgba(26,50,47,0.25)]"
+          : "shadow-[0_18px_60px_-30px_rgba(26,50,47,0.35)]"
+      }`}
     >
       {step === 1 ? (
         <div className="animate-fade-up">

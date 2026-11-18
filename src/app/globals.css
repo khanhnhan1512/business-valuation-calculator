@@ -32,6 +32,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* The /embed page sits in an iframe on aspenval.com: let the host page's own
+   background show through around the calculator card. */
+html:has(.embed-root),
+body:has(.embed-root) {
+  background: transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

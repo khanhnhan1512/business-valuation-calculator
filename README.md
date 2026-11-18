@@ -78,15 +78,71 @@ src/
   app/
     layout.tsx           # fonts, metadata
     page.tsx             # hero, calculator, how it works, multiples, value drivers
+    embed/page.tsx       # the calculator alone, for the iframe on aspenval.com
     globals.css          # Aspen brand tokens
   components/
     Calculator.tsx       # 3-step form, step indicator, validation
     ValuationResults.tsx # range, breakdown, industry insight, CTAs, disclaimer
+    EmbedRoot.tsx        # reports the embed's height to the host page
     SiteHeader.tsx, SiteFooter.tsx, AspenLogo.tsx
   lib/
     valuation.ts         # industries, profiles, multiples, formula, formatting
     insights.ts          # 8 industries × 4 profiles = 32 context insights
+    embed.ts             # message names shared with the host snippet
+next.config.ts           # frame-ancestors: who may embed the site
 ```
+
+## Embedding on aspenval.com
+
+`/embed` shows only the calculator card, with no header, sections or footer,
+for an Elementor HTML widget on aspenval.com. It is set up so that:
+
+- **Only Aspen can frame it.** `next.config.ts` sends
+  `Content-Security-Policy: frame-ancestors 'self' https://aspenval.com https://www.aspenval.com`
+  on every page. Add a domain there if Aspen ever previews pages elsewhere.
+- **The frame fits the content.** `EmbedRoot` posts the card's height to the
+  parent page whenever it changes; the snippet below resizes the iframe, so it
+  never shows an inner scrollbar.
+- **Links leave the frame.** The contact buttons use `target="_top"` and the
+  EBITDA calculator link opens a new tab.
+- **Scrolling is the host's job.** On each step change the embed asks the host
+  to bring the frame into view, instead of scrolling the host page itself.
+
+The snippet to paste into the Elementor HTML widget:
+
+```html
+<iframe
+  id="aspen-valuation-calculator"
+  src="https://calculator.aspenval.com/embed"
+  title="Business Valuation Calculator"
+  style="display:block;width:100%;height:700px;border:0"
+></iframe>
+<script>
+  (function () {
+    var ORIGIN = "https://calculator.aspenval.com";
+    var frame = document.getElementById("aspen-valuation-calculator");
+
+    window.addEventListener("message", function (event) {
+      if (event.origin !== ORIGIN || event.source !== frame.contentWindow) return;
+      var data = event.data || {};
+      if (data.type === "aspen-calculator:height" && data.height > 0) {
+        frame.style.height = data.height + "px";
+      } else if (data.type === "aspen-calculator:navigate") {
+        // New step: bring the top of the calculator into view, clear of a sticky header.
+        var top = frame.getBoundingClientRect().top;
+        if (top < 100) window.scrollBy({ top: top - 100, behavior: "smooth" });
+      }
+    });
+
+    frame.addEventListener("load", function () {
+      frame.contentWindow.postMessage({ type: "aspen-calculator:request-height" }, ORIGIN);
+    });
+  })();
+</script>
+```
+
+The message names match `EMBED_MESSAGES` in [`src/lib/embed.ts`](src/lib/embed.ts).
+If the calculator moves to another domain, update `ORIGIN` and `src` together.
 
 ## Outstanding items
 
